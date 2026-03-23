@@ -1,0 +1,183 @@
+:host {
+	--bg: #f4f7fb;
+	--card: #ffffff;
+	--text: #112240;
+	--muted: #4d5b76;
+	--line: #d9e2f1;
+	--primary: #0b5ed7;
+	--primary-dark: #0848a6;
+	--danger: #c62828;
+	--success: #2e7d32;
+
+	display: block;
+	min-height: 100vh;
+	background: radial-gradient(circle at 10% 0%, #e8eef9 0%, var(--bg) 40%, #eef3fb 100%);
+	color: var(--text);
+	padding: 24px;
+}
+
+.page {
+	max-width: 1080px;
+	margin: 0 auto;
+	display: grid;
+	gap: 16px;
+}
+
+.card {
+	background: var(--card);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 10px 24px rgba(17, 34, 64, 0.06);
+}
+
+h1,
+h2 {
+	margin: 0;
+}
+
+.subtitle {
+	color: var(--muted);
+	margin-top: 4px;
+}
+
+.form-grid {
+	margin-top: 12px;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+label {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+input,
+select,
+textarea,
+button {
+	font: inherit;
+}
+
+input,
+select,
+textarea {
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	padding: 8px 10px;
+}
+
+.full-width {
+	grid-column: 1 / -1;
+}
+
+.actions,
+.section-header,
+.row-actions {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.section-header {
+	justify-content: space-between;
+}
+
+button {
+	background: var(--primary);
+	color: #fff;
+	border: 0;
+	border-radius: 8px;
+	padding: 8px 12px;
+	cursor: pointer;
+}
+
+button:hover {
+	background: var(--primary-dark);
+}
+
+button.secondary {
+	background: #e7eefb;
+	color: #1c3c73;
+}
+
+button.danger {
+	background: var(--danger);
+}
+
+button.tiny {
+	padding: 6px 8px;
+	font-size: 12px;
+}
+
+.alert {
+	margin: 10px 0;
+	padding: 10px;
+	border-radius: 8px;
+	font-weight: 600;
+}
+
+.alert.error {
+	background: #fde8e8;
+	color: #8a1f1f;
+}
+
+.alert.success {
+	background: #e8f6ea;
+	color: #1f6d2a;
+}
+
+.table-wrap {
+	overflow: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+th,
+td {
+	text-align: left;
+	border-bottom: 1px solid var(--line);
+	padding: 10px 6px;
+	vertical-align: top;
+}
+
+.history-list {
+	display: grid;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.history-item {
+	border: 1px dashed var(--line);
+	border-radius: 8px;
+	padding: 10px;
+	background: #fbfdff;
+}
+
+.history-item p {
+	margin: 6px 0;
+	word-break: break-all;
+}
+
+.history-item span {
+	color: var(--muted);
+	font-weight: 700;
+}
+
+@media (max-width: 800px) {
+	:host {
+		padding: 14px;
+	}
+
+	.form-grid {
+		grid-template-columns: 1fr;
+	}
+}

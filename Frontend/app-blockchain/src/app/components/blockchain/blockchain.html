@@ -1,0 +1,126 @@
+<main class="page">
+	<section class="card">
+		<h1>Catálogo de Procesos</h1>
+		<p class="subtitle">Registro de pasos y trazabilidad de cambios con hash encadenado.</p>
+
+		@if (errorMessage) {
+			<p class="alert error">{{ errorMessage }}</p>
+		}
+
+		@if (successMessage) {
+			<p class="alert success">{{ successMessage }}</p>
+		}
+
+		<form class="form-grid" (ngSubmit)="submitForm()">
+			<label>
+				Nombre del paso
+				<input
+					type="text"
+					[(ngModel)]="formModel.name"
+					name="name"
+					placeholder="Ej: Solicitud de Cotización"
+					required
+				/>
+			</label>
+
+			<label>
+				Orden
+				<input type="number" [(ngModel)]="formModel.step_order" name="step_order" min="1" required />
+			</label>
+
+			<label>
+				Paso previo (relación)
+				<select [(ngModel)]="formModel.previous_step_id" name="previous_step_id">
+					<option [ngValue]="null">Sin paso previo</option>
+					@for (step of steps; track step.id) {
+						<option [ngValue]="step.id">{{ step.step_order }} - {{ step.name }}</option>
+					}
+				</select>
+			</label>
+
+			<label class="full-width">
+				Descripción
+				<textarea
+					[(ngModel)]="formModel.description"
+					name="description"
+					rows="3"
+					placeholder="Detalle opcional"
+				></textarea>
+			</label>
+
+			<div class="actions full-width">
+				<button type="submit">{{ editingStepId ? 'Actualizar Paso' : 'Registrar Paso' }}</button>
+				@if (editingStepId) {
+					<button type="button" class="secondary" (click)="cancelEdit()">Cancelar edición</button>
+				}
+			</div>
+		</form>
+	</section>
+
+	<section class="card">
+		<div class="section-header">
+			<h2>Pasos del proceso</h2>
+			<button class="secondary" (click)="refreshData()">Refrescar</button>
+		</div>
+
+		@if (loading) {
+			<p>Cargando pasos...</p>
+		} @else if (!steps.length) {
+			<p>No hay pasos registrados todavía.</p>
+		} @else {
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Orden</th>
+							<th>Nombre</th>
+							<th>Paso previo</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (step of steps; track step.id) {
+							<tr>
+								<td>{{ step.id }}</td>
+								<td>{{ step.step_order }}</td>
+								<td>{{ step.name }}</td>
+								<td>{{ step.previous_step_id ?? '-' }}</td>
+								<td class="row-actions">
+									<button class="tiny" (click)="setEdit(step)">Editar</button>
+									<button class="tiny secondary" (click)="showHistoryByStep(step)">Historial</button>
+									<button class="tiny danger" (click)="removeStep(step)">Eliminar</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+	</section>
+
+	<section class="card">
+		<div class="section-header">
+			<h2>Historial de cambios</h2>
+			<button class="secondary" (click)="resetHistoryFilter()">Ver todo</button>
+		</div>
+
+		@if (loadingHistory) {
+			<p>Cargando historial...</p>
+		} @else if (!history.length) {
+			<p>No hay registros de historial.</p>
+		} @else {
+			<div class="history-list">
+				@for (record of history; track record.id) {
+					<article class="history-item">
+						<p>
+							<strong>{{ record.action }}</strong> | Paso #{{ record.step_id }} | {{ record.changed_at | date : 'short' }}
+						</p>
+						<p><span>Prev Hash:</span> {{ record.previousHash }}</p>
+						<p><span>Hash:</span> {{ record.currentHash }}</p>
+					</article>
+				}
+			</div>
+		}
+	</section>
+</main>

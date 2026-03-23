@@ -1,10 +1,12 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const { pool, initDb } = require('./db')
 
 const app = express()
 const port = Number(process.env.PORT) || 3000
 
+app.use(cors({ origin: '*' }))
 app.use(express.json())
 
 async function insertHistory(client, { stepId, action, oldData, newData, changedBy }) {
